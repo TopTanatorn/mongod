@@ -26,4 +26,4 @@ let BlockChainSchema = new Schema({
     
 });
 
-module.exports = mongoose.model("Blockchain", BlockChainSchema);
+module.exports = mongoose.model("BlockChain", BlockChainSchema);

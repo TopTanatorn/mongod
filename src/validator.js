@@ -1,13 +1,14 @@
 let hash = require('object-hash');
-module.exports.validProof =()=>{
+const TARGET_HASH = 156;
+module.exports.validProof =(proof)=>{
     let guessHash = hash(proof);
     console.log("Hashing", guessHash);
-    return guessHash == hash(PROOF); 
+    return guessHash == hash(TARGET_HASH); 
 }
 module.exports.proofOfWork = ()=>{
     let proof = 0;
     while(true){
-        if(!validProof(proof)){
+        if(!module.exports.validProof(proof)){
             proof++;
         }
         else{

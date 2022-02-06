@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/TopTanatorn/mongod#readme",
   "dependencies": {
-    "chalk": "^5.0.0",
+    "chalk": "^2.4.1",
     "mongoose": "^6.2.0",
     "object-hash": "^2.2.0"
   }

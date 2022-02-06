@@ -3,17 +3,19 @@ database.onConnect(() => {
     let BlockChain = require("./blockChain");
     let blockChain = new BlockChain();
     let hash = require("object-hash");
-    let PROOF = 156;
+    // let PROOF = 156;
 
 
-    if (proofOfWork() == PROOF) {
-        blockChain.addNewData("test");
-        let prevHash = blockChain.lastBlock() ?
-            blockChain
-                .lastBlock()
-                .hash :
-            null;
-        blockChain.addNewBlock(prevHash);
-    }
+    // if (proofOfWork() == PROOF) {
+    //     blockChain.addNewData("test");
+    //     let prevHash = blockChain.lastBlock() ?
+    //         blockChain
+    //             .lastBlock()
+    //             .hash :
+    //         null;
+    //     blockChain.addNewBlock(prevHash);
+    // }
+    blockChain.addNewData("test");
+    blockChain.addNewBlock(null);
     console.log("Chain :", blockChain.chain);
-});
+})
