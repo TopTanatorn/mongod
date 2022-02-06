@@ -20,7 +20,7 @@ class BlockChain {
     }
     addNewBlock(prevHash,informations) {
         let block = {
-            index: this.chain.length + 1,
+            
             timestamp: Date.now(),
             informations: informations,
             prevHash: prevHash,

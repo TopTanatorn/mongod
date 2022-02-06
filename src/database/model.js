@@ -2,10 +2,7 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let BlockChainSchema = new Schema({
-    index: {
-        required: true,
-        type: Schema.Types.Number,
-    },
+
     timestamp:{
         required: true,
         type: Schema.Types.Date,
