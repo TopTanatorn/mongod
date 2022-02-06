@@ -1,30 +1,44 @@
 let hash = require('object-hash');
-
-class BlockChain{
-    constructor(){
+let validator = require("./validator");
+let mongoose = require("mongoose");
+let blockChainModel = mongoose.model("BlockChain");
+let chalk = require("chalk");
+const TARGET_HASH = 156;
+class BlockChain {
+    constructor() {
         this.chain = [];
-        this.curr_data = [];
+        this.curr_informations = [];
 
     }
-    addNewBlock(prevHash){
+    addNewBlock(prevHash) {
         let block = {
             index: this.chain.length + 1,
             timestamp: Date.now(),
-            data: this.curr_data,
+            informations: this.curr_data,
             prevHash: prevHash,
         };
-        this.hash = hash(block);
-        this.chain.push(block);
-        this.curr_data = [];
-        return block;
+        if (validator.proofOfWork() == TARGET_HASH) {
+            block.hash = hash(block);
+            let newBlock = new blockChainModel(this.block);
+            newBlock.save((err) => {
+                if (err) return console.log(chalk.read("Cannot save Block to DB", err.mesage));
+                console.log(chalk.green("Block Saved on the DB"));
+            });
+            this.chain.push(block);
+            this.curr_informations = [];
+            return block;
+        }
+
+
+
     }
-    addNewData(data){
-        this.curr_data.push({data});
+    addNewData(informations) {
+        this.curr_informations.push({ informations });
     }
-    lastBlock(){
+    lastBlock() {
         return this.chain.slice(-1)[0];
     }
-    isEmrty(){
+    isEmrty() {
         return this.chain.length == 0;
     }
 
