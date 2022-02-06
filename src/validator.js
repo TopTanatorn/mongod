@@ -2,7 +2,7 @@ let hash = require('object-hash');
 const TARGET_HASH = 156;
 module.exports.validProof =(proof)=>{
     let guessHash = hash(proof);
-    console.log("Hashing", guessHash);
+    
     return guessHash == hash(TARGET_HASH); 
 }
 module.exports.proofOfWork = ()=>{

@@ -13,7 +13,7 @@ let BlockChainSchema = new Schema({
     },
     informations:{
         required: true,
-        type: Schema.Types.Array,
+        type: Schema.Types.String,
     },
     prevHash:{
         required: false,

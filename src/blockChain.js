@@ -7,8 +7,7 @@ const TARGET_HASH = hash(156);
 class BlockChain {
     constructor() {
         this.chain = [];
-        this.curr_informations = [];
-
+        this.informations = "";
     }
     getLastBlock(callblack) {
         return blockChainModel.findOne({}, null, { sort: { _id: -1 }, limit: 1 }, (err, block) => {
@@ -16,15 +15,19 @@ class BlockChain {
             return callblack(block);
         })
     }
-    addNewBlock(prevHash) {
+    getInfo(){
+        return this.informations;
+    }
+    addNewBlock(prevHash,informations) {
         let block = {
             index: this.chain.length + 1,
             timestamp: Date.now(),
-            informations: this.curr_informations,
+            informations: informations,
             prevHash: prevHash,
         };
         if (validator.proofOfWork() == TARGET_HASH) {
             block.hash = hash(block);
+            console.log("Mine Block :",block.hash);
 
             this.getLastBlock((lastBlock) => {
                 if(lastBlock){
@@ -36,7 +39,7 @@ class BlockChain {
                     console.log(chalk.green("Block Saved on the DB"));
                 });
                 this.chain.push(block);
-                this.curr_informations = [];
+                this.informations = informations;
                 return block;
             });
 
@@ -44,9 +47,6 @@ class BlockChain {
 
 
 
-    }
-    addNewData(informations) {
-        this.curr_informations.push({ informations });
     }
     lastBlock() {
         return this.chain.slice(-1)[0];
