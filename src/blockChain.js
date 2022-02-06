@@ -10,6 +10,12 @@ class BlockChain {
         this.curr_informations = [];
 
     }
+    getLastBlock(callblack) {
+        return blockChainModel.findOne({}, null, { sort: { _id: -1 }, limit: 1 }, (err, block) => {
+            if (err) return console.error("Cannot find Last Block");
+            return callblack(block);
+        })
+    }
     addNewBlock(prevHash) {
         let block = {
             index: this.chain.length + 1,
@@ -19,14 +25,21 @@ class BlockChain {
         };
         if (validator.proofOfWork() == TARGET_HASH) {
             block.hash = hash(block);
-            let newBlock = new blockChainModel(block);
-            newBlock.save((err) => {
-                if (err) return console.log(chalk.red("Cannot save Block to DB", err.mesage));
-                console.log(chalk.green("Block Saved on the DB"));
+
+            this.getLastBlock((lastBlock) => {
+                if(lastBlock){
+                    block.prevHash = lastBlock.hash;
+                }
+                let newBlock = new blockChainModel(block);
+                newBlock.save((err) => {
+                    if (err) return console.log(chalk.red("Cannot save Block to DB", err.mesage));
+                    console.log(chalk.green("Block Saved on the DB"));
+                });
+                this.chain.push(block);
+                this.curr_informations = [];
+                return block;
             });
-            this.chain.push(block);
-            this.curr_informations = [];
-            return block;
+
         }
 
 
